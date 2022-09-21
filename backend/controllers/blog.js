@@ -18,7 +18,7 @@ blogRouter.get('/:id', async (request, response) => {
 })
 
 blogRouter.post('/', [middleware.tokenExtractor, middleware.userExtractor], async (request, response) => {
-  if (!request.body.title && !request.body.url) {
+  if (!request.body.title || !request.body.url) {
     return response.status(400).json({ error: 'title and url must be provided'})
   }
 
@@ -34,18 +34,22 @@ blogRouter.post('/', [middleware.tokenExtractor, middleware.userExtractor], asyn
   response.status(201).json(savedBlogPost)
 })
 
-blogRouter.put('/:id', async (request, response, next) => {
-  const body = request.body
-  const blogPost = await Blog.findById(request.params.id)
-
-  blogPost.likes = body.likes
-
-  try {
-    const updatedBlogPost = await blogPost.save()
-    return response.status(200).json(updatedBlogPost)
-  } catch (error) {
-    next(error)
+blogRouter.put('/:id', [middleware.tokenExtractor, middleware.userExtractor], async (request, response) => {
+  if (!request.body.title || !request.body.url || !request.body.author || !request.body.likes) {
+    return response.status(400).json({ error: 'title, author, url and likes must be provided'})
   }
+
+  const body = request.body
+
+  const updatedBlogPostObject = {
+    author: body.author,
+    title: body.title,
+    url: body.url,
+    likes: body.likes
+  }
+  const updatedBlogPost = await Blog.findByIdAndUpdate(request.params.id, updatedBlogPostObject, { new: true })
+
+  return response.status(200).json(updatedBlogPost)
 })
 
 blogRouter.delete('/:id',[middleware.tokenExtractor, middleware.userExtractor], async (request, response) => {

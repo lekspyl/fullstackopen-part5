@@ -132,7 +132,12 @@ describe('put', () => {
   test('likes are updated', async () => {
     const response = await api
       .put(`/api/blogs/${helper.initialBlogPosts[0]._id}`)
-      .send({ likes: 100 })
+      .send({
+        author: helper.initialBlogPosts[0].author,
+        title: helper.initialBlogPosts[0].title,
+        url: helper.initialBlogPosts[0].url,
+        likes: 100 })
+      .set('Authorization', `Bearer ${await getToken()}`)
       .expect(200)
       .expect('Content-Type', /application\/json/)
 

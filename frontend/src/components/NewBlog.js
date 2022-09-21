@@ -2,13 +2,14 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import { emptyPopup, popupClasses } from './Notification'
 
-const NewBlog = ({ blogs, setBlogs, setPopupMessage }) => {
+const NewBlog = ({ blogs, setBlogs, setPopupMessage, blogFormRef }) => {
   const [author, setAuthor] = useState('')
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
 
   const addBlog = (event) => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     const blogObject = { author, title, url }
 
     blogService
