@@ -97,10 +97,10 @@ const Blog = ({
   }
 
   return (
-  <div style={blogStyle}>
-    {blog.title} <button onClick={() => showDetails(blog.id, isVisible)}>{buttonText}</button>
-    {blogDetails}
-  </div>
+    <div style={blogStyle}>
+      {blog.title} <button onClick={() => showDetails(blog.id, isVisible)}>{buttonText}</button>
+      {blogDetails}
+    </div>
   )
 }
 

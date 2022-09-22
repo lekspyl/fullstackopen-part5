@@ -18,14 +18,13 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then(blogs => {
-        setBlogs(blogs)
-        let fullBlogLikes = {}
-        for (const blog of blogs) {
-          fullBlogLikes[blog.id] = blog.likes
-        }
-        setBlogLikes(fullBlogLikes)
+      setBlogs(blogs)
+      let fullBlogLikes = {}
+      for (const blog of blogs) {
+        fullBlogLikes[blog.id] = blog.likes
       }
-    )
+      setBlogLikes(fullBlogLikes)
+    })
   }, [])
 
   useEffect(() => {
@@ -37,7 +36,7 @@ const App = () => {
     }
   }, [])
 
-  const handleLogout = async => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
     setPopupMessage({ message: 'Successfully logged out', className: popupClasses.success })
