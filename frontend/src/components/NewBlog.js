@@ -1,62 +1,46 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
-import { emptyPopup, popupClasses } from './Notification'
 
-const NewBlog = ({ blogs, setBlogs, setPopupMessage, blogFormRef }) => {
+const NewBlog = ({ addBlog }) => {
   const [author, setAuthor] = useState('')
   const [title, setTitle] = useState('')
   const [url, setUrl] = useState('')
 
-  const addBlog = (event) => {
+  const handleAddBlog = (event) => {
     event.preventDefault()
-    blogFormRef.current.toggleVisibility()
-    const blogObject = { author, title, url }
-
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setAuthor('')
-        setTitle('')
-        setUrl('')
-        setPopupMessage({ message: `Successfully added blog ${title} by ${author}`, className: popupClasses.success })
-        setTimeout(() => {
-          setPopupMessage(emptyPopup)
-        }, 5000)
-      })
-      .catch(error => {
-        setPopupMessage({ message: `There was a problem adding a blog: ${error}`, className: popupClasses.error })
-        setTimeout(() => {
-          setPopupMessage(emptyPopup)
-        }, 5000)
-      })
+    addBlog({ title, author, url })
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
     <div>
       <h2>Add a new post</h2>
-      <form onSubmit={addBlog}>
+      <form onSubmit={handleAddBlog}>
         <div>
-          Title: <input
+          <label htmlFor="title">Title:</label>
+          <input
+            id="title"
             type="text"
             value={title}
-            name="Title"
             onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
-          Author: <input
+          <label htmlFor="author">Author:</label>
+          <input
+            id="author"
             type="text"
             value={author}
-            name="Author"
             onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
-          URL: <input
+          <label htmlFor="url">URL:</label>
+          <input
+            id="url"
             type="text"
             value={url}
-            name="URL"
             onChange={({ target }) => setUrl(target.value)}
           />
         </div>

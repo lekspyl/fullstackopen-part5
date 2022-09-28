@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import blogService from '../services/blogs'
 import { emptyPopup, popupClasses } from './Notification'
+import Button from './Button'
 
 const Blog = ({
   blog,
@@ -85,7 +86,7 @@ const Blog = ({
     blogDetails = (
       <div>
         <p>URL: {blog.url}</p>
-        <p>Likes: {blogLikes[blog.id]} <button onClick={likeBlog}>like</button></p>
+        <p>Likes: {blogLikes[blog.id]} <Button clickHandler={likeBlog} buttonText='like' /></p>
         <p>Author: {blog.author} </p>
         {((user.id === blog.user.id) ? true : false) && <button onClick={deleteBlog}>delete</button>}
       </div>

@@ -36,6 +36,23 @@ const App = () => {
     }
   }, [])
 
+  const addBlog = async (blogObject) => {
+    try {
+      blogFormRef.current.toggleVisibility()
+      const response = await blogService.create(blogObject)
+      setBlogs(blogs.concat(response))
+      setPopupMessage({ message: `Successfully added blog ${response.title} by ${response.author}`, className: popupClasses.success })
+      setTimeout(() => {
+        setPopupMessage(emptyPopup)
+      }, 5000)
+    } catch (error) {
+      setPopupMessage({ message: `There was a problem adding a blog: ${error}`, className: popupClasses.error })
+      setTimeout(() => {
+        setPopupMessage(emptyPopup)
+      }, 5000)
+    }
+  }
+
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
@@ -60,7 +77,7 @@ const App = () => {
         <div>
           <p>Logged-in as {user.name}. <button onClick={handleLogout}>Logout</button></p>
           <Togglable buttonLabel='new note' ref={blogFormRef}>
-            <NewBlog blogs={blogs} setBlogs={setBlogs} setPopupMessage={setPopupMessage} blogFormRef={blogFormRef} />
+            <NewBlog addBlog={addBlog} />
           </Togglable>
           <h2>Blogs</h2>
           {blogs.sort((a, b) => b.likes - a.likes).map(blog =>
