@@ -12,14 +12,6 @@ const Blog = ({
   blogLikes,
   setBlogLikes
 }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
   const [isShown, setIsShown] = useState({})
   let buttonText
   let isVisible
@@ -98,7 +90,7 @@ const Blog = ({
   }
 
   return (
-    <div style={blogStyle}>
+    <div className='blog'>
       {blog.title} <button onClick={() => showDetails(blog.id, isVisible)}>{buttonText}</button>
       {blogDetails}
     </div>

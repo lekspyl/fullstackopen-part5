@@ -7,6 +7,7 @@ node_modules
 
 # testing
 coverage
+**/frontend/cypress/videos
 
 # production
 /build

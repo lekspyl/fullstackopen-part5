@@ -41,6 +41,10 @@ const App = () => {
       blogFormRef.current.toggleVisibility()
       const response = await blogService.create(blogObject)
       setBlogs(blogs.concat(response))
+      setBlogLikes({
+        ...blogLikes,
+        [response.id]: response.likes
+      })
       setPopupMessage({ message: `Successfully added blog ${response.title} by ${response.author}`, className: popupClasses.success })
       setTimeout(() => {
         setPopupMessage(emptyPopup)
@@ -75,7 +79,7 @@ const App = () => {
           password={password}
         /> :
         <div>
-          <p>Logged-in as {user.name}. <button onClick={handleLogout}>Logout</button></p>
+          <p>Logged-in as {user.name}. <button id="logout-button" onClick={handleLogout}>Logout</button></p>
           <Togglable buttonLabel='new note' ref={blogFormRef}>
             <NewBlog addBlog={addBlog} />
           </Togglable>
