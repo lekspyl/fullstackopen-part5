@@ -92,7 +92,7 @@ describe('Blog app', function() {
         .contains('view details').click()
       cy.contains('A New Test Blog')
         .contains('like').click()
-      cy.visit('http://localhost:3000')
+      cy.wait(500)
       cy.get('.blog').eq(0).should('contain', 'A New Test Blog')
       cy.get('.blog').eq(1).should('contain', 'A Test Blog')
     })

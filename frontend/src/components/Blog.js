@@ -33,6 +33,10 @@ const Blog = ({
       setTimeout(() => {
         setPopupMessage(emptyPopup)
       }, 5000)
+      const updatedBlogs = blogs
+        .map(x => x.id === blog.id ? response : x)
+        .sort((a, b) => b.likes - a.likes)
+      setBlogs(updatedBlogs)
       setBlogLikes({
         ...blogLikes,
         [blog.id]: response.likes
